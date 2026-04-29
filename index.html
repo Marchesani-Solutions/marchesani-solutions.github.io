@@ -1,1 +1,816 @@
-TripSplit by Marchesani
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TripSplit — Support</title>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:      #E97451;
+      --orange-soft: #F5B89C;
+      --orange-tint: #FBE4D9;
+      --teal:        #00B4A8;
+      --teal-soft:   #B2EBE7;
+      --blue:        #4A5D8A;
+      --blue-deep:   #2E3E63;
+      --cream:       #FBF6EF;
+      --ink:         #1C2436;
+      --muted:       #6B7489;
+      --line:        rgba(28, 36, 54, 0.10);
+      --white:       #ffffff;
+      --radius-lg:   20px;
+      --radius-xl:   28px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Typography ───────────────────────────────────────── */
+    .serif { font-family: Georgia, 'Times New Roman', serif; }
+
+    h1, h2, h3 { line-height: 1.2; }
+
+    /* ── Layout ───────────────────────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Nav ──────────────────────────────────────────────── */
+    nav {
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-family: Georgia, serif;
+      font-size: 20px;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--orange);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--orange); }
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, #1a2a4a 100%);
+      color: #fff;
+      padding: 96px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,180,168,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--orange-soft);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: Georgia, serif;
+      font-size: clamp(36px, 6vw, 58px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange-soft);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: rgba(255,255,255,0.72);
+      max-width: 520px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 32px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(233,116,81,0.38);
+    }
+
+    .btn-outline {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Section header ───────────────────────────────────── */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: Georgia, serif;
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+      color: var(--ink);
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ── Features grid ────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 8px 32px rgba(28,36,54,0.10);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── How it works ─────────────────────────────────────── */
+    .how-bg {
+      background: var(--blue-deep);
+      color: #fff;
+    }
+
+    .how-bg .section-eyebrow { color: var(--orange-soft); }
+    .how-bg .section-title   { color: #fff; }
+    .how-bg .section-sub     { color: rgba(255,255,255,0.65); }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 48px;
+      position: relative;
+    }
+
+    .steps-list::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 24px;
+      bottom: 24px;
+      width: 2px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .step {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      padding: 24px 0;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 16px rgba(233,116,81,0.4);
+    }
+
+    .step-body h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .step-body p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+    }
+
+    /* ── Categories ───────────────────────────────────────── */
+    .categories-section { background: var(--white); }
+
+    .cat-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 40px;
+    }
+
+    .cat-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1.5px solid transparent;
+    }
+
+    .cat-chip span { font-size: 18px; }
+
+    /* ── Trust bar ────────────────────────────────────────── */
+    .trust-bar {
+      background: var(--teal);
+      padding: 28px 24px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .trust-bar p {
+      font-size: 15px;
+      font-weight: 600;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .trust-sep { opacity: 0.4; }
+
+    /* ── FAQ ─────────────────────────────────────────────── */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 40px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    details {
+      border-bottom: 1px solid var(--line);
+    }
+
+    details:last-child { border-bottom: none; }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 22px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      list-style: none;
+      gap: 16px;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: '+';
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--muted);
+      flex-shrink: 0;
+      line-height: 1;
+      transition: transform 0.2s;
+    }
+
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 22px 20px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── Contact ─────────────────────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .contact-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: block;
+    }
+
+    .contact-card:hover {
+      box-shadow: 0 8px 32px rgba(28,36,54,0.10);
+      transform: translateY(-2px);
+    }
+
+    .contact-card-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+    }
+
+    .contact-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .contact-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .contact-card .card-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.55);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .footer-logo span { color: var(--orange); }
+
+    footer p {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--orange-soft); }
+
+    .footer-links {
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      list-style: none;
+    }
+
+    /* ── Divider ─────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 0;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding: 72px 20px 60px; }
+      .section { padding: 60px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a class="nav-logo" href="#">Trip<span>Split</span></a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ───────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-eyebrow">The #1 App for Group Trips</div>
+    <h1 class="serif">Split expenses.<br><em>Not friendships.</em></h1>
+    <p class="hero-sub">TripSplit takes the awkwardness out of group travel. Log expenses, track who owes what, and settle up instantly — so you can focus on making memories.</p>
+    <div class="hero-actions">
+      <a href="#features" class="btn btn-primary">Explore Features</a>
+      <a href="#contact" class="btn btn-outline">Get Support</a>
+    </div>
+  </header>
+
+  <!-- ── Trust bar ──────────────────────────────────────── -->
+  <div class="trust-bar">
+    <p>
+      ✈️ Built for every kind of group trip
+      <span class="trust-sep">·</span>
+      🔐 Your data is always private &amp; secure
+      <span class="trust-sep">·</span>
+      ⚡ Real-time balances, zero math required
+    </p>
+  </div>
+
+  <!-- ── Features ──────────────────────────────────────── -->
+  <section class="section" id="features">
+    <div class="container">
+      <p class="section-eyebrow">Everything you need</p>
+      <h2 class="section-title serif">The smartest way to<br>travel with friends</h2>
+      <p class="section-sub">From the first expense to the final settlement, TripSplit keeps your group on the same page — financially and socially.</p>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(233,116,81,0.1);">✈️</div>
+          <h3>Trip Planning</h3>
+          <p>Create a trip in seconds. Set your travel dates, group size, destination, and a shared budget — all in one beautiful flow.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(0,180,168,0.1);">💰</div>
+          <h3>Budget Tracking</h3>
+          <p>Set a group budget and watch spending in real time. A live progress bar shows exactly how much runway you have left.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(74,93,138,0.1);">🧾</div>
+          <h3>Expense Logging</h3>
+          <p>Tap the + button and log any expense in seconds. Categorize by food, transport, accommodation, activities, and more.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(233,116,81,0.1);">⚖️</div>
+          <h3>Flexible Splits</h3>
+          <p>Split equally among the whole group, assign the full cost to one person, or customize the split however you need.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(52,199,89,0.1);">💳</div>
+          <h3>Smart Settlements</h3>
+          <p>See at a glance exactly who owes who. Tap any balance to view a breakdown, then mark it as paid when settled.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(0,180,168,0.1);">📊</div>
+          <h3>Spending Insights</h3>
+          <p>A live donut chart breaks down your trip spending by category so you always know where the money is going.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(74,93,138,0.1);">👥</div>
+          <h3>Easy Invites</h3>
+          <p>Share a unique trip code or link. Friends join in one tap — no account required to get started on their end.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(233,116,81,0.1);">🔔</div>
+          <h3>Notifications</h3>
+          <p>Get notified when someone adds an expense, settles up, or joins the trip. Stay in sync without the group chat chaos.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(52,199,89,0.1);">🗂️</div>
+          <h3>Multiple Trips</h3>
+          <p>Planning a ski trip <em>and</em> a beach weekend? No problem. Manage as many trips as you like, all in one place.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── How it works ────────────────────────────────────── -->
+  <section class="how-bg" id="how-it-works">
+    <div class="section">
+      <div class="container">
+        <p class="section-eyebrow">Getting started</p>
+        <h2 class="section-title serif">Up and running<br>in three steps</h2>
+        <p class="section-sub">TripSplit is designed to get out of the way so you can get to the fun part.</p>
+
+        <ol class="steps-list">
+          <li class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>Create your trip</h3>
+              <p>Enter your destination, travel dates, group size, and a shared budget. Pick a trip type — Spring Break, Ski Trip, City Break, and more — and TripSplit sets the vibe.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>Invite the crew</h3>
+              <p>Share your unique trip code or a direct link. Friends join instantly and start logging expenses right away — everyone stays in the loop in real time.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>Log, track &amp; settle up</h3>
+              <p>Add expenses as they happen. TripSplit calculates everyone's balance automatically. When the trip ends, settle up with a single tap — no spreadsheets, no arguments.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Expense Categories ──────────────────────────────── -->
+  <section class="section categories-section">
+    <div class="container">
+      <p class="section-eyebrow">Expense categories</p>
+      <h2 class="section-title serif">Every trip expense,<br>neatly organized</h2>
+      <p class="section-sub">TripSplit covers every kind of spending you'll encounter on any group adventure.</p>
+
+      <div class="cat-grid">
+        <div class="cat-chip" style="background:rgba(233,116,81,0.10); border-color:rgba(233,116,81,0.25); color:#C05A35;">
+          <span>🍽️</span> Food &amp; Drink
+        </div>
+        <div class="cat-chip" style="background:rgba(74,93,138,0.10); border-color:rgba(74,93,138,0.25); color:#3D4E6E;">
+          <span>🏨</span> Accommodation
+        </div>
+        <div class="cat-chip" style="background:rgba(0,180,168,0.10); border-color:rgba(0,180,168,0.25); color:#008C82;">
+          <span>🚗</span> Transport
+        </div>
+        <div class="cat-chip" style="background:rgba(155,89,182,0.10); border-color:rgba(155,89,182,0.25); color:#7B4BA8;">
+          <span>🎟️</span> Activities
+        </div>
+        <div class="cat-chip" style="background:rgba(52,199,89,0.10); border-color:rgba(52,199,89,0.25); color:#28A249;">
+          <span>🛒</span> Groceries
+        </div>
+        <div class="cat-chip" style="background:rgba(230,126,34,0.10); border-color:rgba(230,126,34,0.25); color:#B8611A;">
+          <span>🎉</span> Entertainment
+        </div>
+        <div class="cat-chip" style="background:rgba(142,68,173,0.10); border-color:rgba(142,68,173,0.25); color:#6E3A8A;">
+          <span>🛍️</span> Shopping
+        </div>
+        <div class="cat-chip" style="background:rgba(255,59,48,0.10); border-color:rgba(255,59,48,0.25); color:#CC2D24;">
+          <span>🏥</span> Health
+        </div>
+        <div class="cat-chip" style="background:rgba(107,116,137,0.10); border-color:rgba(107,116,137,0.25); color:#505A70;">
+          <span>•••</span> Other
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── FAQ ───────────────────────────────────────────── -->
+  <section class="section" id="faq">
+    <div class="container">
+      <p class="section-eyebrow">FAQ</p>
+      <h2 class="section-title serif">Common questions</h2>
+      <p class="section-sub">Everything you need to know about using TripSplit.</p>
+
+      <div class="faq-list">
+
+        <details>
+          <summary>How do I add an expense?</summary>
+          <p class="faq-answer">Tap the orange "+" button on your trip dashboard. Enter the amount, a short description, select a category, choose who paid, and pick a split method. Your group's balances update instantly.</p>
+        </details>
+
+        <details>
+          <summary>How are expenses split?</summary>
+          <p class="faq-answer">By default, expenses are split equally among all trip members. You can also assign the full cost to one specific person, or use a custom split if one person is covering a larger share.</p>
+        </details>
+
+        <details>
+          <summary>How do I invite friends to my trip?</summary>
+          <p class="faq-answer">From your trip dashboard, tap "Invite More Friends." You'll get a unique trip code and a shareable link you can send via any messaging app. Your friends can join with a single tap.</p>
+        </details>
+
+        <details>
+          <summary>Can I be part of multiple trips at the same time?</summary>
+          <p class="faq-answer">Absolutely. You can create or join as many trips as you like — a ski weekend, a summer road trip, a bachelorette bash. Each trip has its own separate expense log and balances.</p>
+        </details>
+
+        <details>
+          <summary>How do I settle up with someone?</summary>
+          <p class="faq-answer">Check the "Settlements" card on your trip dashboard. It shows exactly who owes who and how much. When someone pays you back (in person, via Venmo, however you choose), tap their name and hit "Mark as Paid" to record the settlement.</p>
+        </details>
+
+        <details>
+          <summary>What trip types does TripSplit support?</summary>
+          <p class="faq-answer">TripSplit is designed for any group adventure: Spring Break, Bachelor/Bachelorette, Ski Trip, Camping, City Break, or anything else you have in mind. Each trip type comes with a matching vibe in the app.</p>
+        </details>
+
+        <details>
+          <summary>Is my financial data secure?</summary>
+          <p class="faq-answer">Yes. All data is stored securely and encrypted in transit and at rest. TripSplit never shares your financial information with third parties and never stores payment credentials of any kind.</p>
+        </details>
+
+        <details>
+          <summary>What do I do if I have a problem or bug to report?</summary>
+          <p class="faq-answer">Email us at <a href="mailto:support@tripsplit.app" style="color:var(--orange);">support@tripsplit.app</a> and we'll get back to you as quickly as possible. Include your device model and iOS version to help us resolve it faster.</p>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Contact ────────────────────────────────────────── -->
+  <section class="section" id="contact">
+    <div class="container">
+      <p class="section-eyebrow">Support</p>
+      <h2 class="section-title serif">We're here to help</h2>
+      <p class="section-sub">Can't find your answer above? Reach out and we'll get back to you quickly.</p>
+
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:support@tripsplit.app">
+          <div class="contact-card-icon">✉️</div>
+          <h3>Email Support</h3>
+          <p>Send us a message and we'll reply within one business day.</p>
+          <span class="card-link">support@tripsplit.app</span>
+        </a>
+
+        <a class="contact-card" href="mailto:feedback@tripsplit.app">
+          <div class="contact-card-icon">💬</div>
+          <h3>Send Feedback</h3>
+          <p>Have an idea or feature request? We genuinely read every message.</p>
+          <span class="card-link">Share your thoughts →</span>
+        </a>
+
+        <a class="contact-card" href="#faq">
+          <div class="contact-card-icon">📖</div>
+          <h3>Browse the FAQ</h3>
+          <p>Quick answers to the most common questions about TripSplit.</p>
+          <span class="card-link">Read FAQ →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-logo">Trip<span>Split</span></div>
+      <p>The best app for splitting expenses on group trips.</p>
+      <p style="margin-top:6px;">
+        Questions? Email us at <a href="mailto:support@tripsplit.app">support@tripsplit.app</a>
+      </p>
+      <ul class="footer-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="mailto:support@tripsplit.app">Support</a></li>
+      </ul>
+      <p style="margin-top:24px; font-size:12px; opacity:0.45;">
+        &copy; 2026 TripSplit. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
